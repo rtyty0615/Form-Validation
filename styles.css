@@ -1,4 +1,40 @@
+body {
+    font: 1em sans-serif;
+    width: 200px;
+    padding: 0;
+    margin: 0 auto;
+}
+
 input:user-invalid {
     border: 2px solid red;
     background-color: #fff0f0;
 }
+
+.error {
+    width: 100%;
+    padding: 0;
+
+    font-size: 80%;
+    color: white;
+    background-color: #990000;
+    border-radius: 0 0 5px 5px;
+
+    box-sizing: border-box;
+}
+
+.error.active {
+    padding: 0.3em;
+}
+
+/* input[type="email"] {
+    appearance: none;
+
+    width: 100%;
+    border: 1px solid #333333;
+    margin: 0;
+
+    font-family: inherit;
+    font-size: 90%;
+
+    box-sizing: border-box;
+} */
