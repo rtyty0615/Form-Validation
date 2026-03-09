@@ -2,7 +2,7 @@ const form = document.querySelector("form");
 const email = document.getElementById("mail");
 const emailError = document.querySelector("#mail + span.error");
 
-email.addEventListener("input", (event) => {
+email.addEventListener("input", () => {
     if (email.validity.valid) {
         emailError.textContent = "";
         emailError.className = "error"; 
@@ -19,7 +19,15 @@ form.addEventListener("submit", (event) => {
     checkPostalCode();
     if (!postalCodeField.validity.valid) {
         event.preventDefault();
-    }
+    };
+    if (!password.validity.valid) {
+        showPasswordError();
+        event.preventDefault();
+    };
+    if (!passwordConfirm.validity.valid) {
+        showPasswordConfirmError();
+        event.preventDefault();
+    };
 
 
 });
@@ -29,8 +37,6 @@ function showEmailError() {
         emailError.textContent = "You need to enter an email address.";
     } else if (email.validity.typeMismatch) {
         emailError.textContent = "Entered value needs to be an email address.";
-    } else if (email.validity.tooShort) {
-        emailError.textContent = `Email should be at least ${email.minLength} characters; you entered ${email.value.length}.`;
     }
     emailError.className = "error active";
 }
@@ -62,7 +68,6 @@ function checkPostalCode() {
     const country = countrySelect.value;
 
     const constraint = new RegExp(constraints[country][0], "");
-    console.log(constraint);
 
     if (constraint.test(postalCodeField.value)) {
         postalCodeField.setCustomValidity("");
@@ -86,3 +91,56 @@ function showPostalCodeError(message) {
 
 countrySelect.addEventListener("change", checkPostalCode);
 postalCodeField.addEventListener("input", checkPostalCode);
+
+const password = document.getElementById("password");
+const passwordError = document.querySelector("#password + span.error");
+
+password.addEventListener("input", () => {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    password.setCustomValidity("");
+    if (!password.validity.valid) {
+        showPasswordError();
+    } else if (!passwordRegex.test(password.value)) {
+        password.setCustomValidity("Complexity requirements not met.");
+        showPasswordError();
+    } else {
+        passwordError.textContent = "";
+        passwordError.className = "error";
+    }
+});
+
+function showPasswordError() {
+    if (password.validity.valueMissing) {
+        passwordError.textContent = "You need to enter a password.";
+    } else if (password.validity.tooShort) {
+        passwordError.textContent = `Password should be at least ${password.minLength} characters; you entered ${password.value.length}.`;
+    } else if (password.validity.customError) {
+        passwordError.textContent = "Entered value needs to have at least one uppercase, one lowercase, one digit, and one special character.";
+    } 
+    passwordError.className = "error active";
+}
+
+const passwordConfirm = document.getElementById("password-confirm");
+const passwordConfirmError = document.querySelector("#password-confirm + span.error");
+
+passwordConfirm.addEventListener("input", () => {
+    passwordConfirm.setCustomValidity("");
+    if (!passwordConfirm.validity.valid) {
+        showPasswordConfirmError();
+    } else if (passwordConfirm.value !== password.value) {
+        passwordConfirm.setCustomValidity("Confirmed password is not the same.");
+        showPasswordConfirmError();
+    } else {
+        passwordConfirmError.textContent = "";
+        passwordConfirmError.className = "error";
+    }
+});
+
+function showPasswordConfirmError(){
+    if (passwordConfirm.validity.valueMissing) {
+        passwordConfirmError.textContent = "You need to enter a password.";
+    } else if (passwordConfirm.validity.customError){
+        passwordConfirmError.textContent = "You must enter the same password!";
+    }
+    passwordConfirmError.className = "error active";
+}

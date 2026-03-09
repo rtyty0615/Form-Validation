@@ -32,10 +32,12 @@
         <div>
             <label for="password">Password:</label>
             <input required minlength="8" type="password" id="password" name="password">
+            <span class="error" aria-live="polite"></span>
         </div>
         <div>
             <label for="password-confirm">Password Confirmation: </label>
-            <input required minlength="8" type="password" id="password-confirm" name="password-confirm">
+            <input required type="password" id="password-confirm" name="password-confirm">
+            <span class="error" aria-live="polite"></span>
         </div>
 
         <button type="submit">Create Account</button>

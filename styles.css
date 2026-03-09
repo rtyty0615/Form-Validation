@@ -25,16 +25,3 @@ input:user-invalid {
 .error.active {
     padding: 0.3em;
 }
-
-/* input[type="email"] {
-    appearance: none;
-
-    width: 100%;
-    border: 1px solid #333333;
-    margin: 0;
-
-    font-family: inherit;
-    font-size: 90%;
-
-    box-sizing: border-box;
-} */
